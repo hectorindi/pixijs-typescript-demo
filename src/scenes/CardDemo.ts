@@ -61,6 +61,7 @@ export class CardDemo extends Container {
     }
 
     public stopDemo() {
+        this.cardStack = [];
         this.cardContainer.removeChildren();
         this.timeOuts.forEach((element) => {
             clearTimeout(element);

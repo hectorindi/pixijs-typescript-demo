@@ -21,3 +21,8 @@ npm install
 ## Development
 
 Launch the `Complete development` launch configuration.
+
+## conclusion and improvment
+
+1. adding resize, right now application doesnt resize as window is resized.
+2. moblie tests

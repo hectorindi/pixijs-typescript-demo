@@ -56,6 +56,7 @@ export class TextDemo extends Container {
     }
 
     public startShowingText(): void {
+        this.clearShowingText();
         this.intervalId = setInterval(() => {
             this.textContainer.removeChildren();
             this.textContainer.addChild(this.makestringwithImage());
