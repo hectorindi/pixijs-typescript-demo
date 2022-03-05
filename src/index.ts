@@ -44,10 +44,6 @@ const main = async () => {
     await load(app);
     document.body.appendChild(app.view);
 
-    if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
-    }
-
     var fpsCounter = new FPSCounter(app);
     app.stage.addChild(fpsCounter);
 
@@ -66,11 +62,11 @@ const main = async () => {
 
     let startX = 10;
 
-    let labels = ['Fire Demo', 'Text Demo', 'Card Demo'];
+    let labels = ['FullScreen', 'Fire Demo', 'Text Demo', 'Card Demo'];
     const buttonContainer = new Container();
     app.stage.addChild(buttonContainer);
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
         let button = new Sprite(
             app.loader.resources['assets/button.png'].texture
         );
@@ -89,19 +85,30 @@ const main = async () => {
 
     function onButtonDown(evt: any) {
         if (evt.currentTarget.name === 'button0') {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            }
+        } else if (evt.currentTarget.name === 'button1') {
             particleDemo.visible = true;
-            particleDemo.startEmitter();
             textDemo.visible = false;
             cardDemo.visible = false;
-        } else if (evt.currentTarget.name === 'button1') {
+            particleDemo.destroyparticles();
+            particleDemo.startEmitter();
+            cardDemo.stopDemo();
+            textDemo.clearShowingText();
+        } else if (evt.currentTarget.name === 'button2') {
             particleDemo.visible = false;
             textDemo.visible = true;
             cardDemo.visible = false;
+            textDemo.startShowingText();
             particleDemo.destroyparticles();
-        } else if (evt.currentTarget.name === 'button2') {
+            cardDemo.stopDemo();
+        } else if (evt.currentTarget.name === 'button3') {
             particleDemo.visible = false;
             textDemo.visible = false;
             cardDemo.visible = true;
+            textDemo.clearShowingText();
+            cardDemo.startCardDemo();
             particleDemo.destroyparticles();
         }
     }

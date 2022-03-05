@@ -25,75 +25,45 @@ export class ParticleDemo extends Container {
 
         this.config = {
             alpha: {
-                list: [
-                    {
-                        value: 0.8,
-                        time: 0,
-                    },
-                    {
-                        value: 0.1,
-                        time: 1,
-                    },
-                ],
-                isStepped: false,
+                start: 0.62,
+                end: 0,
             },
-            emit: true,
             scale: {
-                list: [
-                    {
-                        value: 1,
-                        time: 0,
-                    },
-                    {
-                        value: 0.3,
-                        time: 1,
-                    },
-                ],
-                isStepped: false,
+                start: 0.5,
+                end: 1.5,
+                minimumScaleMultiplier: 1,
             },
             color: {
-                list: [
-                    {
-                        value: 'FB8E2D',
-                        time: 0,
-                    },
-                    {
-                        value: 'f5b830',
-                        time: 1,
-                    },
-                ],
-                isStepped: false,
+                start: '#fff191',
+                end: '#ff622c',
             },
             speed: {
-                list: [
-                    {
-                        value: 200,
-                        time: 0,
-                    },
-                    {
-                        value: 100,
-                        time: 1,
-                    },
-                ],
-                isStepped: false,
+                start: 500,
+                end: 600,
+                minimumSpeedMultiplier: 1.5,
             },
+            acceleration: {
+                x: 0,
+                y: 0,
+            },
+            maxSpeed: 0,
             startRotation: {
-                min: 0,
-                max: 360,
+                min: 265,
+                max: 275,
             },
+            noRotation: false,
             rotationSpeed: {
-                min: 0,
-                max: 0,
+                min: 50,
+                max: 50,
             },
             lifetime: {
-                min: 0.5,
-                max: 1,
+                min: 0.1,
+                max: 0.75,
             },
-            frequency: 0.008,
-            spawnChance: 1,
-            particlesPerWave: 1,
-            emitterLifetime: 0.31,
-            maxParticles: 1000,
+            blendMode: 'normal',
+            frequency: 0.001,
+            emitterLifetime: -1,
+            maxParticles: 10,
             pos: {
                 x: 0,
                 y: 0,

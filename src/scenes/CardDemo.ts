@@ -12,6 +12,7 @@ export class CardDemo extends Container {
     private backTexture: Texture;
     private cardContainer: Container;
     private cardStack: Sprite[] = [];
+    private timeOuts: any[] = [];
 
     constructor(app: Application) {
         super();
@@ -24,7 +25,9 @@ export class CardDemo extends Container {
             'assets/front.png'
         ].texture;
         this.backTexture = this.app.loader.resources['assets/back.png'].texture;
+    }
 
+    public startCardDemo() {
         this.cardContainer.pivot.set(
             this.cardContainer.width / 2,
             this.cardContainer.height / 2
@@ -48,11 +51,20 @@ export class CardDemo extends Container {
         }
         let index = 51;
         for (let j = 51; j >= 0; j--) {
-            setTimeout(() => {
-                this.flipcard(this.cardStack[index]);
-                index--;
-            }, j * 1000);
+            this.timeOuts.push(
+                setTimeout(() => {
+                    this.flipcard(this.cardStack[index]);
+                    index--;
+                }, j * 1000)
+            );
         }
+    }
+
+    public stopDemo() {
+        this.cardContainer.removeChildren();
+        this.timeOuts.forEach((element) => {
+            clearTimeout(element);
+        });
     }
 
     private flipcard(card: Sprite): void {

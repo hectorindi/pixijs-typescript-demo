@@ -27,12 +27,14 @@ export class TextDemo extends Container {
         '[image] this is [image] [image] some [image] random text',
     ];
     private imgArr: Sprite[] = [];
+    private intervalId: any;
+
     constructor(app: Application) {
         super();
         this.app = app;
         this.textContainer = new Container();
         this.addChild(this.textContainer);
-
+        this.intervalId;
         this.textContainer.pivot.set(
             this.textContainer.width / 2,
             this.textContainer.height / 2
@@ -53,11 +55,16 @@ export class TextDemo extends Container {
         this.startShowingText();
     }
 
-    private startShowingText(): void {
-        setInterval(() => {
+    public startShowingText(): void {
+        this.intervalId = setInterval(() => {
             this.textContainer.removeChildren();
             this.textContainer.addChild(this.makestringwithImage());
         }, 2000);
+    }
+
+    public clearShowingText(): void {
+        this.textContainer.removeChildren();
+        clearInterval(this.intervalId);
     }
 
     private makestringwithImage(): Container {
