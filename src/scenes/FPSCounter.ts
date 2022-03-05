@@ -13,7 +13,7 @@ export class FPSCounter extends Container {
         const style = new TextStyle({ fill: 'white' });
         this._fpsText = new Text('0', style);
         this.addChild(this._fpsText);
-        this._fpsText.position.set(100, 100);
+        this._fpsText.position.set(100, 10);
         // Handle update
         this.app.ticker.add(this.update);
     }

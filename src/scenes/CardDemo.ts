@@ -56,7 +56,6 @@ export class CardDemo extends Container {
     }
 
     private flipcard(card: Sprite): void {
-        console.log(card.name);
         this.cardContainer.addChild(card);
         TweenMax.to(card, 0.5, {
             pixi: { scaleX: 1, scaleY: 1 },

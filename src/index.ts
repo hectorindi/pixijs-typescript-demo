@@ -3,7 +3,7 @@ import { CardDemo } from './scenes/CardDemo';
 import { FPSCounter } from './scenes/FPSCounter';
 import { ParticleDemo } from './scenes/ParticleDemo';
 import { TextDemo } from './scenes/TextDemo';
-import { Sprite } from 'pixi.js';
+import { Sprite, Text, TextStyle, Container } from 'pixi.js';
 
 const load = (app: PIXI.Application) => {
     return new Promise<void>((resolve) => {
@@ -13,6 +13,11 @@ const load = (app: PIXI.Application) => {
                 'assets/front.png',
                 'assets/back.png',
                 'assets/button.png',
+                'assets/icon1.png',
+                'assets/icon2.png',
+                'assets/icon3.png',
+                'assets/icon4.png',
+                'assets/icon5.png',
             ])
             .load(() => {
                 resolve();
@@ -39,30 +44,67 @@ const main = async () => {
     await load(app);
     document.body.appendChild(app.view);
 
-    // Set scene
-    var scene1 = new ParticleDemo(app);
-    app.stage.addChild(scene1);
-    scene1.visible = false;
-
-    var scene2 = new CardDemo(app);
-    app.stage.addChild(scene2);
-
-    var scene3 = new TextDemo(app);
-    app.stage.addChild(scene3);
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+    }
 
     var fpsCounter = new FPSCounter(app);
     app.stage.addChild(fpsCounter);
 
-    let button1 = new Sprite(app.loader.resources['assets/button.png'].texture);
-    let button2 = new Sprite(app.loader.resources['assets/button.png'].texture);
-    let button3 = new Sprite(app.loader.resources['assets/button.png'].texture);
-    app.stage.addChild(button1);
-    app.stage.addChild(button2);
-    app.stage.addChild(button3);
+    // Set scene
+    var particleDemo = new ParticleDemo(app, fpsCounter.fpsText);
+    app.stage.addChild(particleDemo);
+    particleDemo.startEmitter();
 
-    button1.position.set(20, 20);
-    button1.position.set(100, 20);
-    button1.position.set(200, 20);
+    var textDemo = new TextDemo(app);
+    app.stage.addChild(textDemo);
+    textDemo.visible = false;
+
+    var cardDemo = new CardDemo(app);
+    app.stage.addChild(cardDemo);
+    cardDemo.visible = false;
+
+    let startX = 10;
+
+    let labels = ['Fire Demo', 'Text Demo', 'Card Demo'];
+    const buttonContainer = new Container();
+    app.stage.addChild(buttonContainer);
+
+    for (let i = 0; i < 3; i++) {
+        let button = new Sprite(
+            app.loader.resources['assets/button.png'].texture
+        );
+        buttonContainer.addChild(button);
+        button.scale.set(0.5, 0.5);
+        button.position.set(startX + i * 250, 20);
+        const style = new TextStyle({ fill: 'white' });
+        let buttonText = new Text(labels[i], style);
+        buttonText.position.set(button.x + 70, button.y + 100);
+        buttonContainer.addChild(buttonText);
+        button.interactive = true;
+        button.name = `button${i}`;
+        button.buttonMode = true;
+        button.on('pointerdown', onButtonDown);
+    }
+
+    function onButtonDown(evt: any) {
+        if (evt.currentTarget.name === 'button0') {
+            particleDemo.visible = true;
+            particleDemo.startEmitter();
+            textDemo.visible = false;
+            cardDemo.visible = false;
+        } else if (evt.currentTarget.name === 'button1') {
+            particleDemo.visible = false;
+            textDemo.visible = true;
+            cardDemo.visible = false;
+            particleDemo.destroyparticles();
+        } else if (evt.currentTarget.name === 'button2') {
+            particleDemo.visible = false;
+            textDemo.visible = false;
+            cardDemo.visible = true;
+            particleDemo.destroyparticles();
+        }
+    }
 };
 
 main();

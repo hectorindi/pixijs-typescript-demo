@@ -5,25 +5,25 @@ export class ParticleDemo extends Container {
     private app: Application;
     private sprite: Sprite;
     private myEmitter: particles.Emitter;
-    private fpsText: PIXI.Text;
+    private fpsText: Text;
+    private emitterContainer: Container;
+    private config: any;
 
-    constructor(app: Application) {
+    constructor(app: Application, fpsText: Text) {
         super();
         this.app = app;
-        this.update = this.update.bind(this);
-
-        const emitterContainer = new Container();
-        this.addChild(emitterContainer);
-
-        const style = new TextStyle({ fill: 'white' });
-        this.fpsText = new Text('0', style);
-        emitterContainer.addChild(this.fpsText);
+        this.fpsText = fpsText;
+        this.sprite = new Sprite(
+            this.app.loader.resources['assets/logo.png'].texture
+        );
+        this.emitterContainer = new Container();
+        this.addChild(this.emitterContainer);
 
         this.sprite = new Sprite(
             this.app.loader.resources['assets/logo.png'].texture
         );
 
-        let config: any = {
+        this.config = {
             alpha: {
                 list: [
                     {
@@ -107,9 +107,18 @@ export class ParticleDemo extends Container {
             },
         };
         this.myEmitter = new particles.Emitter(
-            emitterContainer,
+            this.emitterContainer,
             this.sprite.texture,
-            config
+            this.config
+        );
+    }
+
+    startEmitter() {
+        this.update = this.update.bind(this);
+        this.myEmitter = new particles.Emitter(
+            this.emitterContainer,
+            this.sprite.texture,
+            this.config
         );
 
         this.myEmitter.updateOwnerPos(
@@ -117,19 +126,23 @@ export class ParticleDemo extends Container {
             window.innerHeight / 2
         );
 
-        this.fpsText.position.set(100, 100);
-
         // Handle update
         this.app.ticker.add(this.update);
+    }
+
+    destroyparticles() {
+        this.myEmitter.destroy();
+        this.app.ticker.remove(this.update);
     }
 
     update(_: any, delta: number) {
         this.myEmitter.emit = true;
         this.myEmitter.update(0.009);
-        this.fpsText.text =
-            this.fpsText.text +
-            '\n' +
-            this.myEmitter.particleCount +
-            ' Particles';
+        this.fpsText &&
+            (this.fpsText.text =
+                this.fpsText.text +
+                '\n' +
+                this.myEmitter.particleCount +
+                ' Particles');
     }
 }
