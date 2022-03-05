@@ -69,8 +69,7 @@ export class TextDemo extends Container {
     }
 
     private makestringwithImage(): Container {
-        // let str = this.strArr[Math.floor(Math.random() * 7)];
-        let str = this.strArr[0];
+        let str = this.strArr[Math.floor(Math.random() * 7)];
         let stringArr = str.split('[');
         console.log(stringArr);
         let fullContainer = new Container();

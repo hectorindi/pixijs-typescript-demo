@@ -38,19 +38,19 @@ export class CardDemo extends Container {
             window.innerHeight / 2 - 50
         );
         let gap = { x: 0, y: 0 };
-        for (let i = 0; i < 52; i++) {
+        for (let i = 0; i < 145; i++) {
             let card = new Sprite(this.frontTexture);
             card.pivot.set(card.width / 2, card.height / 2);
             card.scale.set(0.8);
             card.position.set(gap.x, gap.y);
             card.name = `card${i}`;
             gap.x = gap.x + 5;
-            gap.y = gap.y + 5;
+            gap.y = gap.y + 2;
             this.cardContainer.addChild(card);
             this.cardStack.push(card);
         }
-        let index = 51;
-        for (let j = 51; j >= 0; j--) {
+        let index = 143;
+        for (let j = 143; j >= 0; j--) {
             this.timeOuts.push(
                 setTimeout(() => {
                     this.flipcard(this.cardStack[index]);

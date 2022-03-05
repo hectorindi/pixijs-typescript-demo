@@ -16,11 +16,17 @@ added 3 main demo :
 
 ```bash
 npm install
+npm run dev
 ```
 
 ## Development
 
 Launch the `Complete development` launch configuration.
+or frfom command prompt
+
+```bash
+npm run dev
+```
 
 ## conclusion and improvment
 
